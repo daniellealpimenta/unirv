@@ -24,16 +24,16 @@ class LoteController extends Controller
         return response()->json($lote, 201);
     }
 
-    public function show($loteid)
+    public function show()
     {
-        $lote = Lote::find($loteid);
+        $lote = Lote::all();
 
         return response()->json($lote);
     }
 
     public function updateQuantidade(Request $request, $loteid)
     {
-        $quantidadeTotal = Ingresso::where('lote_id', $loteid)->count();
+        $quantidadeTotal = Ingresso::where('lote_id', $loteid)->where('disponivel', true)->count();
         $lote = Lote::find($loteid);
         $lote->quantidade_ingressos = $quantidadeTotal;
         $lote->save();

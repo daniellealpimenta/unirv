@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('historico_de_compras', function (Blueprint $table) {
             $table->id();
-            $table->text("comprovante_de_pagamento");
-            $table->string("status_do_pagamento");
+            $table->text("comprovante_de_pagamento")->nullable();
+            $table->string("status_do_pagamento")->nullable();
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Ingresso::class)->constrained()->onDelete('cascade');
             $table->timestamps();

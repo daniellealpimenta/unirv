@@ -16,6 +16,7 @@ class Ingresso extends Model
         'valor',
         'nome_evento',
         'data_validade',
+        'disponivel',
         'lote_id',
     ];
 

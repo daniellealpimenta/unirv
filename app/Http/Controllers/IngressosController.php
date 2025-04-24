@@ -16,7 +16,11 @@ class IngressosController extends Controller
             'data_validade' => ['required', 'date'],
         ]);
 
-        // Pode fazer uma verificação da data, se ela for menor que a data atual, está errada.
+        if($request->data_validade < date('Y-m-d')) {
+            return response()->json([
+                "error" => "Data inválida"
+            ], 400);
+        }
 
         $ingresso = Ingresso::create([
             'valor' => $request->valor,
@@ -26,6 +30,12 @@ class IngressosController extends Controller
         ]);
 
         return response()->json($ingresso, 201);
+    }
+
+    public function show(){
+        $ingressos = Ingresso::all();
+
+        return response()->json($ingressos);
     }
 
     public function update(Request $request, $ingressoid)
@@ -41,6 +51,24 @@ class IngressosController extends Controller
         $ingresso->nome_evento = $request->nome_evento;
         $ingresso->data_validade = $request->data_validade;
         $ingresso->save();
+
+        return response()->json($ingresso);
+    }
+
+    public function enable($ingressoid)
+    {
+        $ingresso = Ingresso::find($ingressoid);
+        $ingresso->disponivel = true;
+        $ingresso->save();
+
+        return response()->json($ingresso);
+    }
+
+    public function disable($ingressoid)
+    {
+        $ingresso = Ingresso::find($ingressoid);
+        $ingresso->disponivel = false;
+        $ingresso->save();    
 
         return response()->json($ingresso);
     }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('valor');
             $table->string("nome_evento");
             $table->date("data_validade");
+            $table->boolean("disponivel")->default(true);
             $table->foreignIdFor(Lote::class)->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

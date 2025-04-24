@@ -1,5 +1,0 @@
-[build]
-  builder = "paketobuildpacks/builder:base"
-
-[variables]
-  PHP_VERSION = "8.2"

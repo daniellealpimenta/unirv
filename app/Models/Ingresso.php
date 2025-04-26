@@ -13,7 +13,8 @@ class Ingresso extends Model
     use SoftDeletes, HasFactory;
 
     protected $fillable = [
-        'valor',
+        'valor_aluno',
+        'valor_externo',
         'nome_evento',
         'data_validade',
         'disponivel',

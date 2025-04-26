@@ -11,7 +11,8 @@ class IngressosController extends Controller
     public function store(Request $request, $loteid)
     {
         $request->validate([
-            'valor' => ['required', 'numeric'],
+            'valor_aluno' => ['required', 'numeric'],
+            'valor_externo' => ['required', 'numeric'],
             'nome_evento' => ['required', 'string', 'max:255'],
             'data_validade' => ['required', 'date'],
             'quantidade' => ['required', 'integer']
@@ -25,7 +26,8 @@ class IngressosController extends Controller
 
         while($request->quantidade > 0) {
             $ingresso = Ingresso::create([
-                'valor' => $request->valor,
+                'valor_aluno' => $request->valor_aluno,
+                'valor_externo' => $request->valor_externo,
                 'nome_evento' => $request->nome_evento,
                 'data_validade' => $request->data_validade,
                 'lote_id' => $loteid,
@@ -42,19 +44,24 @@ class IngressosController extends Controller
         return response()->json($ingressos);
     }
 
-    public function update(Request $request, $ingressoid)
+    public function update(Request $request, $loteid)
     {
         $request->validate([
-            'valor' => ['required', 'numeric'],
+            'valor_aluno' => ['required', 'numeric'],
+            'valor_externo' => ['required', 'numeric'],
             'nome_evento' => ['required', 'string', 'max:255'],
             'data_validade' => ['required', 'date'],
         ]);
 
-        $ingresso = Ingresso::find($ingressoid);
-        $ingresso->valor = $request->valor;
-        $ingresso->nome_evento = $request->nome_evento;
-        $ingresso->data_validade = $request->data_validade;
-        $ingresso->save();
+        $ingressos = Ingresso::where('lote_id', $loteid)->get();
+
+        foreach($ingressos as $ingresso) {
+            $ingresso->valor_externo = $request->valor_externo;
+            $ingresso->valor_aluno = $request->valor_aluno;
+            $ingresso->nome_evento = $request->nome_evento;
+            $ingresso->data_validade = $request->data_validade;
+            $ingresso->save();
+        }
 
         return response()->json($ingresso);
     }

@@ -14,7 +14,8 @@ return new class extends Migration
     {
         Schema::create('ingressos', function (Blueprint $table) {
             $table->id();
-            $table->float('valor');
+            $table->float('valor_externo');
+            $table->float('valor_aluno');
             $table->string("nome_evento");
             $table->date("data_validade");
             $table->boolean("disponivel")->default(true);

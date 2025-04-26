@@ -14,6 +14,7 @@ class IngressosController extends Controller
             'valor' => ['required', 'numeric'],
             'nome_evento' => ['required', 'string', 'max:255'],
             'data_validade' => ['required', 'date'],
+            'quantidade' => ['required', 'integer']
         ]);
 
         if($request->data_validade < date('Y-m-d')) {
@@ -22,12 +23,15 @@ class IngressosController extends Controller
             ], 400);
         }
 
-        $ingresso = Ingresso::create([
-            'valor' => $request->valor,
-            'nome_evento' => $request->nome_evento,
-            'data_validade' => $request->data_validade,
-            'lote_id' => $loteid,
-        ]);
+        while($request->quantidade > 0) {
+            $ingresso = Ingresso::create([
+                'valor' => $request->valor,
+                'nome_evento' => $request->nome_evento,
+                'data_validade' => $request->data_validade,
+                'lote_id' => $loteid,
+            ]);
+            $request->quantidade--;
+        }
 
         return response()->json($ingresso, 201);
     }

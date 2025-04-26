@@ -13,12 +13,13 @@ class LoteController extends Controller
     {
         $request->validate([
             'nome' => ['required', 'string', 'max:255'],
+            'ativo' => ['required', 'boolean'],
         ]);
 
         $lote = Lote::create([
             'nome' => $request->nome,
             'quantidade_ingressos' => 0,
-            'ativo' => true,
+            'ativo' => $request->ativo
         ]);
 
         return response()->json($lote, 201);

@@ -17,8 +17,8 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-Route::get('/run-migrate-fresh', function () {
-    Artisan::call('migrate:fresh --force');
-    return 'Migrations fresh rodadas com sucesso!';
-});
+// Route::get('/run-migrate-fresh', function () {
+//     Artisan::call('migrate:fresh --force');
+//     return 'Migrations fresh rodadas com sucesso!';
+// });
 

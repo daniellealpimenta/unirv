@@ -3,6 +3,7 @@
 use App\Http\Controllers\IngressosController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PagamentoController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,10 +37,13 @@ Route::prefix('ingressos')->group(function () {
     Route::get('/show', IngressosController::class .'@show')->name('ingressoShow');
     Route::put('/enable/{ingressoid}', IngressosController::class .'@enable')->name('ingressoEnable');
     Route::put('/disable/{ingressoid}', IngressosController::class .'@disable')->name('ingressoDisable');
-    Route::put('/update/{ingressoid}', IngressosController::class .'@update')->name('ingressoUpdate');
+    Route::put('/update/{loteid}', IngressosController::class .'@update')->name('ingressoUpdate');
     Route::delete('/delete/{ingressoid}', IngressosController::class .'@destroy')->name('ingressoDestroy');
 });
 
-Route::post('/pagamento/pix', [PagamentoController::class, 'pagarPix']);
+Route::post('/pagamento/aluno/pix/{ingresso_id}', [PagamentoController::class, 'pagarPixAluno']);
+Route::post('/pagamento/externo/pix/{ingresso_id}', [PagamentoController::class, 'pagarPixExterno']);
+
+Route::post('/webhooks/mercadopago', [WebhookController::class, 'handle']);
 
 require __DIR__.'/auth.php';

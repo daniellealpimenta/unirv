@@ -16,6 +16,7 @@ class HistoricoDeCompra extends Model
         'status_do_pagamento',
         'user_id',
         'ingresso_id',
+        'payment_id',
     ];
 
     public function user(): BelongsTo

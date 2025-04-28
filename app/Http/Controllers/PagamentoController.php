@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HistoricoDeCompra;
+use App\Models\Ingresso;
 use Illuminate\Http\Request;
 use App\Services\MercadoPagoService;
 
@@ -11,18 +12,25 @@ class PagamentoController extends Controller
     public function pagarPix(Request $request, MercadoPagoService $mp)
     {
         $validated = $request->validate([
-            'valor' => 'required|numeric',
+            'ingresso_id' => 'required|exists:ingressos,id',
+            'tipo_comprador' => 'required|in:aluno,externo',
             'nome' => 'required|string|max:255',
             'email' => 'required|email',
         ]);
 
-        $pagamento = $mp->criarPagamentoPix($validated['valor'], $validated['nome'], $validated['email']);
+        $ingresso = Ingresso::find($validated['ingresso_id']);
 
-        // $historico = HistoricoDeCompra::create([
-        //     'user_id' => auth()->user()->id,
-        //     'status_do_pagamento' => $pagamento->status,
-        //     'ingresso_id' => $validated['ingresso_id'],
-        // ]);
+        $valor = $validated['tipo_comprador'] == 'aluno' ? $ingresso->valor_aluno : $ingresso->valor_externo;
+
+        $pagamento = $mp->criarPagamentoPix($valor, $validated['nome'], $validated['email']);
+
+        $historico = HistoricoDeCompra::create([
+            'user_id' => auth()->id(),
+            'ingresso_id' => $ingresso->id,
+            'status_do_pagamento' => $pagamento->status,
+            'comprovante_de_pagamento' => null,
+            'payment_id' => $pagamento->id,
+        ]);
 
         return response()->json([
             'id' => $pagamento->id,

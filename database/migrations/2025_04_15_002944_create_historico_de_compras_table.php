@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("status_do_pagamento")->nullable();
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Ingresso::class)->constrained()->onDelete('cascade');
+            $table->string('payment_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

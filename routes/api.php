@@ -41,8 +41,7 @@ Route::prefix('ingressos')->group(function () {
     Route::delete('/delete/{ingressoid}', IngressosController::class .'@destroy')->name('ingressoDestroy');
 });
 
-Route::post('/pagamento/aluno/pix/{ingresso_id}', [PagamentoController::class, 'pagarPixAluno']);
-Route::post('/pagamento/externo/pix/{ingresso_id}', [PagamentoController::class, 'pagarPixExterno']);
+Route::post('/pagamento/pix/{ingresso_id}', [PagamentoController::class, 'pagarPix']);
 
 Route::post('/webhooks/mercadopago', [WebhookController::class, 'handle']);
 

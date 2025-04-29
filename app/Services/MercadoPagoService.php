@@ -16,8 +16,12 @@ class MercadoPagoService
         $this->client = new PaymentClient();
     }
 
-    public function criarPagamentoPix($valor, $nome, $email)
+    public function criarPagamentoPix($valor, $nomeCompleto, $email)
     {
+        $partes = explode(" ", trim($nomeCompleto));
+        $nome = $partes[0] ?? '';
+        $sobrenome = $partes[1] ?? '';
+
         try {
             $payment = $this->client->create([
                 "transaction_amount" => floatval($valor),
@@ -26,7 +30,9 @@ class MercadoPagoService
                 "payer" => [
                     "email" => $email,
                     "first_name" => $nome,
-                ]
+                    "last_name" => $sobrenome
+                ],
+                "notification_url" => route('webhooks.mercadopago') 
             ]);
 
             return $payment;

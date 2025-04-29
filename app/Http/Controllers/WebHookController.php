@@ -13,10 +13,10 @@ class WebhookController extends Controller
 {
     public function handle(Request $request)
 {
-    // Log e resposta imediata
-    Log::info('📬 Webhook recebido', [
-        'payload_raw' => $request->getContent(),
-        'payload_json' => $request->all(),
+    \Log::info('Webhook Mercado Pago recebido', [
+        'headers' => $request->headers->all(),
+        'body' => $request->getContent(),
+        'json' => $request->all(),
     ]);
 
     // Retorna 200 rapidamente para o Mercado Pago

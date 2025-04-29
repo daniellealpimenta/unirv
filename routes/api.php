@@ -43,6 +43,8 @@ Route::prefix('ingressos')->group(function () {
 
 Route::post('/pagamento/pix/{ingresso_id}', [PagamentoController::class, 'pagarPix']);
 
-Route::post('/webhooks/mercadopago', [WebhookController::class, 'handle'])->name('webhooks.mercadopago');
+Route::post('/webhooks/mercadopago', [WebhookController::class, 'handle'])
+    ->withoutMiddleware([\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class])
+    ->name('webhooks.mercadopago');
 
 require __DIR__.'/auth.php';

@@ -12,25 +12,16 @@ class WebhookController extends Controller
 {
     public function handle(Request $request)
     {
-        Log::info('Recebido webhook', ['body' => $request->getContent()]); // log do conteúdo bruto recebido
-
-        try {
-            // Aqui a diferença: decodificando o raw JSON
             $data = json_decode($request->getContent(), true);
 
             if (isset($data['data']['id'])) {
                 $paymentId = $data['data']['id'];
-                Log::info('ID de pagamento recebido: ' . $paymentId);
-
-                // Setar o access token da API do Mercado Pago
+                
                 MercadoPagoConfig::setAccessToken(env('MERCADO_PAGO_TOKEN'));
 
                 $paymentClient = new PaymentClient();
                 $payment = $paymentClient->get($paymentId);
 
-                Log::info('Pagamento retornado do Mercado Pago', ['status' => $payment->status]);
-
-                // Buscar o histórico de compra pelo payment_id
                 $historico = HistoricoDeCompra::where('payment_id', $paymentId)->first();
 
                 if ($historico) {
@@ -47,9 +38,5 @@ class WebhookController extends Controller
             }
 
             return response()->json(['message' => 'Webhook recebido']);
-        } catch (\Exception $e) {
-            Log::error('Erro no processamento do webhook: ' . $e->getMessage());
-            return response()->json(['error' => 'Erro no processamento do webhook: ' . $e->getMessage()], 500);
-        }
     }
 }

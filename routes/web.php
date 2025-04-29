@@ -21,11 +21,3 @@ Route::get('/', function () {
 //     Artisan::call('migrate:fresh --force');
 //     return 'Migrations fresh rodadas com sucesso!';
 // });
-
-use Illuminate\Support\Facades\Log;
-
-Route::post('/teste-webhook', function () {
-    Log::info('Webhook de teste recebido!');
-    return response()->json(['message' => 'OK']);
-});
-

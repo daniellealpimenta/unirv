@@ -43,6 +43,6 @@ Route::prefix('ingressos')->group(function () {
 
 Route::post('/pagamento/pix/{ingresso_id}', [PagamentoController::class, 'pagarPix']);
 
-Route::post('/webhooks/mercadopago', [WebhookController::class, 'handle']);
+Route::post('/webhooks/mercadopago', [WebhookController::class, 'handle'])->name('webhooks.mercadopago');
 
 require __DIR__.'/auth.php';

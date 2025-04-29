@@ -32,7 +32,7 @@ class MercadoPagoService
                     "first_name" => $nome,
                     "last_name" => $sobrenome
                 ],
-                "notification_url" => route('webhooks.mercadopago') 
+                'notification_url' => 'https://unirv-production.up.railway.app/api/webhooks/mercadopago',
             ]);
 
             return $payment;

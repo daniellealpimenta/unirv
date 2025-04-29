@@ -45,4 +45,14 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function report(Throwable $exception)
+    {
+        \Log::error('🔴 Exceção global capturada: ' . $exception->getMessage(), [
+            'exception' => $exception,
+        ]);
+    
+        parent::report($exception);
+    }
+
 }

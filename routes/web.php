@@ -21,4 +21,3 @@ Route::get('/', function () {
 //     Artisan::call('migrate:fresh --force');
 //     return 'Migrations fresh rodadas com sucesso!';
 // });
-
